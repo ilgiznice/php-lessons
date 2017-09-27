@@ -4,6 +4,7 @@
 class Database
 {
     public $table;
+    public $allowed = [];
 
     // Получение таблицы
     public function getTable()
@@ -11,6 +12,14 @@ class Database
         if (strlen($this->table) == 0)
             throw new ErrorException('Не указана таблица');
         return $this->table;
+    }
+
+    // Получение разрешённых для изменения полей
+    public function getAllowed()
+    {
+        if (count($this->allowed) === 0)
+            throw new ErrorException('Не указаны разрешённые поля');
+        return $this->allowed;
     }
 
     /**
@@ -44,9 +53,40 @@ class Database
      */
     public function create($data)
     {
-        $allowed = ['name', 'phone', 'text']; // Разрешенные столбцы
+        $allowed = $this->getAllowed(); // Разрешенные столбцы
         $sql = 'INSERT INTO ' . $this->getTable() . ' SET ' . $this->pdoSet($allowed, $data);
         $stm = $this->pdo()->prepare($sql);
+        $stm->execute($data);
+    }
+
+    /**
+     * Обновляет запись с указанным ID
+     *
+     * @param $id - id записи
+     * @param $data - обновляемые поля
+     */
+
+    public function update($id, $data)
+    {
+        $allowed = $this->getAllowed(); // Разрешенные столбцы
+        $sql = 'UPDATE ' . $this->getTable()
+            . ' SET ' . $this->pdoSet($allowed, $data) . ' WHERE id = :id';
+        $stm = $this->pdo()->prepare($sql);
+        $data['id'] = $id;
+        $stm->execute($data);
+    }
+
+    /**
+     * Удаляет запись с указанным ID
+     *
+     * @param $id - id записи
+     */
+
+    public function delete($id)
+    {
+        $sql = 'DELETE FROM ' . $this->getTable() . ' WHERE id = :id';
+        $stm = $this->pdo()->prepare($sql);
+        $data = [ 'id' => $id ];
         $stm->execute($data);
     }
 
@@ -76,7 +116,7 @@ class Database
         $host = '127.0.0.1';
         $db = 'fullstack';
         $user = 'root';
-        $pass = 'dev';
+        $pass = 'password';
         $charset = 'utf8';
 
         $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
