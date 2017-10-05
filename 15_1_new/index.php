@@ -16,7 +16,10 @@ spl_autoload_register( function ($className) {
     require $fileName;
 });
 
-$router = new Router();
+$products = new \Models\Product();
+$reviews = new \Models\Review();
+
+$router = new Router($products, $reviews);
 $router->execute();
 
 ?>
