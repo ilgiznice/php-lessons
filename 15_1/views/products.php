@@ -18,22 +18,23 @@
             <h3><?= $product['description'] ?></h3>
             <h4><?= $product['price'] ?></h4>
             <h5><?= $product['timestamp'] ?></h5>
-            <form action="handler.php" method="post">
-                <div class="form-group">
-                    <label for="title">Название</label>
-                    <input type="text" class="form-control" name="title" id="title" value="<?= $product['title'] ?>">
-                </div>
-                <div class="form-group">
-                    <label for="description">Описание</label>
-                    <input type="text" class="form-control" name="description" value="<?= $product['description'] ?>">
-                </div>
-                <div class="form-group">
-                    <label for="price">Цена</label>
-                    <input type="text" class="form-control" name="price" value="<?= $product['price'] ?>">
-                </div>
-                <input type="hidden" name="id" value="<?= $_REQUEST['id'] ?>">
-                <button type="submit" name="edit">Отредактировать</button>
-            </form>
+            <?php if ($editable === true) : ?>
+                <form action="products/<?= $product['id'] ?>/edit" method="post">
+                    <div class="form-group">
+                        <label for="title">Название</label>
+                        <input type="text" class="form-control" name="title" id="title" value="<?= $product['title'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Описание</label>
+                        <input type="text" class="form-control" name="description" value="<?= $product['description'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Цена</label>
+                        <input type="text" class="form-control" name="price" value="<?= $product['price'] ?>">
+                    </div>
+                    <button type="submit">Отредактировать</button>
+                </form>
+            <?php endif; ?>
         </div>
     </div>
 </div>
