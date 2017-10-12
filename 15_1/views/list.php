@@ -36,17 +36,17 @@
                         <td><?= $product['price'] ?></td>
                         <td><?= $product['timestamp'] ?></td>
                         <td>
-                            <a href="index.php/products/<?= $product['id'] ?>/view">
+                            <a href="products/<?= $product['id'] ?>/view">
                                 Перейти
                             </a>
                         </td>
                         <td>
-                            <a href="index.php/products/<?= $product['id'] ?>/edit">
+                            <a href="products/<?= $product['id'] ?>/edit">
                                 Редактировать
                             </a>
                         </td>
                         <td>
-                            <form action="index.php/products/<?= $product['id'] ?>/delete" method="POST">
+                            <form action="products/<?= $product['id'] ?>/delete" method="POST">
                                 <button type="submit">Удалить</button>
                             </form>
                         </td>
@@ -54,6 +54,13 @@
                 <?php endforeach; ?>
                 </tbody>
             </table>
+            <!-- Форма для создания товара -->
+            <form action="products/create" method="POST">
+                <input type="text" name="title" placeholder="Название">
+                <input type="text" name="description" placeholder="Описание">
+                <input type="text" name="price" placeholder="Цена">
+                <button type="submit">Создать</button>
+            </form>
         </div>
     </div>
     <h1>Отзывы</h1>
@@ -81,23 +88,18 @@
                         <td><?= $review['text'] ?></td>
                         <td><?= $review['timestamp'] ?></td>
                         <td>
-                            <a href="views/reviews_view.php?id=<?= $review['id'] ?>">
+                            <a href="reviews/<?= $review['id'] ?>/view">
                                 Перейти
                             </a>
                         </td>
                         <td>
-                            <a href="views/reviews_edit.php?id=<?= $review['id'] ?>">
+                            <a href="reviews/<?= $review['id'] ?>/edit">
                                 Редактировать
                             </a>
                         </td>
                         <td>
-                            <form action="handler.php" method="POST">
-                                <input
-                                    type="hidden"
-                                    name="id"
-                                    value="<?= $review['id'] ?>"
-                                >
-                                <button type="submit" name="delete">Удалить</button>
+                            <form action="reviews/<?= $review['id'] ?>/delete" method="POST">
+                                <button type="submit">Удалить</button>
                             </form>
                         </td>
                     </tr>

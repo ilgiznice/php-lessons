@@ -12,7 +12,7 @@ use Models\Product;
 
 class ProductController
 {
-    public function execute($method, $action, $id)
+    public function execute($method, $action, $id = null)
     {
         $_product = new Product();
         if ($method === 'GET') {

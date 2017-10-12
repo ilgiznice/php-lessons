@@ -2,20 +2,6 @@
 
 use Controllers\IndexController;
 
-spl_autoload_register(function ($className) {
-    $className = ltrim($className, '\\');
-    $fileName = '';
-    $namespace = '';
-    if ($lastNsPos = strrpos($className, '\\')) {
-        $namespace = substr($className, 0, $lastNsPos);
-        $className = substr($className, $lastNsPos + 1);
-        $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
-    }
-    $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-
-    require $fileName;
-});
-
 class Router
 {
     // /products/1/view
@@ -23,6 +9,10 @@ class Router
     // 1 - id
     // view - action
     protected $action_pattern = "/(?P<entity>\w+)\/(?P<id>\d+)\/(?P<action>\w+)/";
+    // /products/create
+    // products - entity
+    // create - action
+    protected $create_pattern = "/(?P<entity>\w+)\/(?P<action>\w+)/";
 
     protected $matches = [];
 
@@ -48,6 +38,19 @@ class Router
             } else if ($entity === 'reviews') {
                 $controller = new \Controllers\ReviewController();
                 $controller->execute($method, $action, $id);
+            }
+        } else if (preg_match($this->create_pattern, $url, $this->matches)) {
+            // Создать товар или отзыв или ...
+            $entity = $this->matches['entity'];
+            $action = $this->matches['action'];
+            // POST /products/create -> Создать товар
+            // POST /reviews/create -> Создать отзыв
+            if ($entity === 'products') {
+                $controller = new \Controllers\ProductController();
+                $controller->execute($method, $action);
+            } else if ($entity === 'reviews') {
+                $controller = new \Controllers\ReviewController();
+                $controller->execute($method, $action);
             }
         } else {
             // Показать ошибку
