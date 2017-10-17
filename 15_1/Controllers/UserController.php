@@ -2,15 +2,13 @@
 /**
  * Created by PhpStorm.
  * User: nice
- * Date: 10.10.17
- * Time: 18:25
+ * Date: 14.10.17
+ * Time: 13:56
  */
 
 namespace Controllers;
 
-use Models\Review;
-
-class ReviewController
+class UserController
 {
     //
 }

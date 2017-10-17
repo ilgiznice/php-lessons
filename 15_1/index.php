@@ -16,7 +16,24 @@ spl_autoload_register( function ($className) {
     require $fileName;
 });
 
+//echo '<pre>';
+
 $router = new Router();
+// localhost/15_1/
+// localhost/15_1
+// /products\/(?P<id>\d+)\/view
+//  Товары
+$router->get('/products\/(?P<id>\d+)\/view/', 'ProductController', 'view');
+$router->get('/products\/(?P<id>\d+)\/edit/', 'ProductController', 'edit');
+$router->post('/products\/(?P<id>\d+)\/edit/', 'ProductController', 'edit');
+$router->post('/products\/(?P<id>\d+)\/delete/', 'ProductController', 'delete');
+$router->post('/products\/create/', 'ProductController', 'create');
+$router->get('/\//', 'IndexController');
+//  Отзывы
+//  ...
+//  Пользователи
+//  ...
+//  Вызов роутера
 $router->execute();
 
 ?>

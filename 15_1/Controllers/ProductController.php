@@ -12,39 +12,53 @@ use Models\Product;
 
 class ProductController
 {
-    public function execute($method, $action, $id = null)
+    public function __construct()
     {
-        $_product = new Product();
-        if ($method === 'GET') {
-            if ($action === 'view' || $action === 'edit') {
-                // Отдаём views/products.php
-                // Получаем товар по ID
-                $product = $_product->getOne($id);
-                if (!$product) {
-                    print_r('Товар не найден');
-                    die();
-                }
-                // По-умолчанию не редактируемый
-                $editable = false;
-                if ($action === 'edit') {
-                    // Если действие = edit
-                    // То добавляем возможность изменить
-                    $editable = true;
-                }
-                include_once dirname(__FILE__) . '/../views/products.php';
+        // Вызывается при инициализации
+        $this->product = new Product();
+    }
+
+    public function view($params)
+    {
+        $id = $params['id'];
+        $product = $this->product->getOne($id);
+        if (!$product) {
+            print_r('Товар не найден');
+            die();
+        }
+        $editable = false;
+        include_once dirname(__FILE__) . '/../views/products.php';
+    }
+
+    public function edit($params)
+    {
+        $id = $params['id'];
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $product = $this->product->getOne($id);
+            if (!$product) {
+                print_r('Товар не найден');
+                die();
             }
-        } else if ($method === 'POST') { // Если POST запрос
-            if ($action === 'edit') {
-                // Если действие = обновить
-                $_product->update($id, $_POST);
-            } else if ($action === 'delete') {
-                // Если действие = удалить
-                $_product->delete($id);
-            } else if ($action === 'create') {
-                // Если действие = создать
-                $_product->create($_POST);
-            }
+            // Делаем товар редактируемым
+            $editable = true;
+            // Отдаём views/products.php
+            include_once dirname(__FILE__) . '/../views/products.php';
+        } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->product->update($id, $_POST);
             header('Location: /15_1/');
         }
+    }
+
+    public function delete($params)
+    {
+        $id = $params['id'];
+        $this->product->delete($id);
+        header('Location: /15_1/');
+    }
+
+    public function create()
+    {
+        $this->product->create($_POST);
+        header('Location: /15_1/');
     }
 }
