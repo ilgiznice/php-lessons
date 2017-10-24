@@ -28,11 +28,16 @@ $router->get('/products\/(?P<id>\d+)\/edit/', 'ProductController', 'edit');
 $router->post('/products\/(?P<id>\d+)\/edit/', 'ProductController', 'edit');
 $router->post('/products\/(?P<id>\d+)\/delete/', 'ProductController', 'delete');
 $router->post('/products\/create/', 'ProductController', 'create');
-$router->get('/\//', 'IndexController');
 //  Отзывы
-//  ...
+$router->get('/reviews\/(?P<id>\d+)\/view/', 'ReviewController', 'view');
+$router->get('/reviews\/(?P<id>\d+)\/edit/', 'ReviewController', 'edit');
+$router->post('/reviews\/(?P<id>\d+)\/edit/', 'ReviewController', 'edit');
+$router->post('/reviews\/(?P<id>\d+)\/delete/', 'ReviewController', 'delete');
+$router->post('/reviews\/create/', 'ReviewController', 'create');
 //  Пользователи
 //  ...
+//  Главная
+$router->get('/\//', 'IndexController');
 //  Вызов роутера
 $router->execute();
 
