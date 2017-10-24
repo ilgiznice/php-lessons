@@ -11,6 +11,10 @@
 </head>
 <body>
 <div class="container">
+    <ul class="nav nav-pills">
+        <li class="active"><a href="">Главная</a></li>
+        <li><a href="admin">Панель администратора</a></li>
+    </ul>
     <h1>Товары</h1>
     <div class="row">
         <div class="col-md-12">

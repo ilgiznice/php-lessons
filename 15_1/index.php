@@ -36,6 +36,8 @@ $router->post('/reviews\/(?P<id>\d+)\/delete/', 'ReviewController', 'delete');
 $router->post('/reviews\/create/', 'ReviewController', 'create');
 //  Пользователи
 //  ...
+//  Панель администратора
+$router->get('/\/admin/', 'IndexController', 'admin');
 //  Главная
 $router->get('/\//', 'IndexController');
 //  Вызов роутера
